@@ -40,10 +40,23 @@ def straf_gebruiker(naam, type_straf):
     st.session_state['muted_users'].add(naam)
 
 def save_ai_result(vondst, confidence, image_file):
+    # CHECK: Is image_file wel echt een geüpload bestand?
+    if image_file is None or isinstance(image_file, str):
+        st.error("Oeps! Er is geen geldige afbeelding gevonden om te verwerken.")
+        return False
+
     naam = st.session_state.get('user_name', 'Gast')
     nu = datetime.now()
-    file_bytes = image_file.getvalue()
+    
+    # Nu pas proberen we de bytes op te halen
+    try:
+        file_bytes = image_file.getvalue()
+    except AttributeError:
+        st.error("Fout bij het lezen van het fotobestand.")
+        return False
+
     photo_hash = hashlib.md5(file_bytes).hexdigest()
+    # ... rest van je code ...
 
     # Anti-spam & Anti-copy checks
     if (naam in st.session_state['last_scan_time'] and (nu - st.session_state['last_scan_time'][naam]) < timedelta(seconds=30)):
