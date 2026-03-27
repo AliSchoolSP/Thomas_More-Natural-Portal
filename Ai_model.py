@@ -103,7 +103,7 @@ def toon_ai_dashboard():
                         st.metric("Zekerheid", f"{round(confidence * 100)}%")
                     
                     # Data opslaan
-                    Data.save_ai_result(label_naam, confidence, rol)
+                    Data.save_ai_result(label_naam, confidence, upload)
 
                 except Exception as e:
                     st.error(f"Fout tijdens analyse: {e}")
